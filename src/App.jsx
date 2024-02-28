@@ -1,33 +1,25 @@
 import { useState } from 'react';
+import React from 'react';
+import TodoList from './TodoList';
+import AddTodoForm from './AddTodoForm';
 
-const todoList = [
-  {
-    id: 1,
-    title: "To install React-app"
-  },
-  {
-    id: 2,
-    title: "To read a book"
-  },
-  {
-    id: 3,
-    title: "Complete assignment"
-  }
-];
 
 function App() {
+
   const [count, setCount] = useState(0);
 
   return (
     <div>
+      <AddTodoForm/>
       <h1>Todo list</h1>
-      <ul>
-        {todoList.map((todo) => (
-          <li key={todo.id}>{todo.title}</li>
-        ))}
-      </ul> 
+   <TodoList/>
     </div>
   );
 }
 
 export default App;
+
+
+
+
+
