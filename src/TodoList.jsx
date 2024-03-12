@@ -1,15 +1,7 @@
 import React, { useState } from 'react';
 import TodoListItem from './TodoListItem';
 
-function App() {
 
-  return (
-    <div>
-      <h1>Todo list</h1>
-      <TodoList />
-    </div>
-  );
-}
 
 const todoList = [
   {
@@ -31,10 +23,10 @@ function TodoList() {
     <div>
       <h1>List todo</h1>
       <ul>
-      {todoList.map((object, i) => <TodoListItem todo={object} />)}
+        {todoList.map((object, i) => <TodoListItem todo={object} />)}
       </ul>      
     </div>
   )
 }
 
-export default App;
+export default TodoList;
