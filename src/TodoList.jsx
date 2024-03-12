@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import TodoListItem from './TodoListItem';
 
 function App() {
 
@@ -30,10 +31,8 @@ function TodoList() {
     <div>
       <h1>List todo</h1>
       <ul>
-        {todoList.map((todo) => (
-          <li key={todo.id}>{todo.title}</li>
-        ))}
-      </ul>
+      {todoList.map((object, i) => <TodoListItem todo={object} />)}
+      </ul>      
     </div>
   )
 }
