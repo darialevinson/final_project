@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import InputWithLabel from './InputWithLabel';
 
 function AddTodoForm({ addTodo }) {
   const [todoTitle, setTodoTitle] = useState('');
+  const inputRef = useRef(null);
   
 
   function handleTitleChange(event) {
@@ -18,6 +19,7 @@ function AddTodoForm({ addTodo }) {
     };
     addTodo(newTodo);
     setTodoTitle('');
+    inputRef.current.focus();
   }
 
   return (
@@ -25,6 +27,7 @@ function AddTodoForm({ addTodo }) {
       <InputWithLabel
         todoTitle={todoTitle}
         handleTitleChange={handleTitleChange}
+        inputRef={inputRef}
       >
         Title
       </InputWithLabel>
