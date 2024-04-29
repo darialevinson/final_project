@@ -16,6 +16,46 @@ function useSemiPersistentState(key, initialState) {
 
 function App() {
   const [todoList, setTodoList] = useSemiPersistentState('savedTodoList', []);
+  const [isLoading, setIsLoading] = useState(true); // Initialize isLoading state
+
+  async function fetchData() {
+    const url = `https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
+    
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_API_TOKEN}`
+      }
+    };
+
+    try {
+      const response = await fetch(url, options);
+      
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Data from Airtable API:', data);
+      
+      const todos = data.records.map(record => ({
+        id: record.id,
+        title: record.fields.title 
+      }));
+      console.log('Todos:', todos);
+
+      setTodoList(todos);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      console.log('Error message:', error.message);
+    } finally {
+      setIsLoading(false); // Set isLoading to false when the fetch is complete
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   function addTodo(newTodo) {
     setTodoList(prevTodoList => [...prevTodoList, newTodo]);
@@ -29,8 +69,11 @@ function App() {
   return (
     <div>
       <AddTodoForm addTodo={addTodo} />
-      <TodoList todoList={todoList} onRemoveTodo={removeTodo} />
-
+      {isLoading ? ( // Render loading message if isLoading is true
+        <div>Loading...</div>
+      ) : (
+        <TodoList todoList={todoList} onRemoveTodo={removeTodo} />
+      )}
     </div>
   );
 }
