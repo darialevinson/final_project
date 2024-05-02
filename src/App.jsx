@@ -2,60 +2,51 @@ import React, { useState, useEffect } from 'react';
 import TodoList from './TodoList';
 import AddTodoForm from './AddTodoForm';
 
-function useSemiPersistentState(key, initialState) {
-  const [state, setState] = useState(
-    localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key)) : initialState
-  );
+function App() {
+  const [todoList, setTodoList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(state));
-  }, [key, state]);
-
-  return [state, setState];
-}
-
-function App() {
-  const [todoList, setTodoList] = useSemiPersistentState('savedTodoList', []);
-  const [isLoading, setIsLoading] = useState(true); // Initialize isLoading state
-
-  async function fetchData() {
-    const url = `https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
+    const fetchData = async () => {
+      const url = `https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
     
-    const options = {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_API_TOKEN}`
+      const options = {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_API_TOKEN}`
+        }
+      };
+
+      try {
+        const response = await fetch(url, options);
+        
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const todos = data.records.map(record => ({
+          id: record.id,
+          title: record.fields.title 
+        }));
+        setTodoList(todos);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setError(error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    try {
-      const response = await fetch(url, options);
-      
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log('Data from Airtable API:', data);
-      
-      const todos = data.records.map(record => ({
-        id: record.id,
-        title: record.fields.title 
-      }));
-      console.log('Todos:', todos);
-
-      setTodoList(todos);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      console.log('Error message:', error.message);
-    } finally {
-      setIsLoading(false); // Set isLoading to false when the fetch is complete
-    }
-  }
+    fetchData();
+  }, []); // Empty dependency list
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (!isLoading && todoList.length > 0) { // Only save to localStorage if todoList is not empty
+      localStorage.setItem('savedTodoList', JSON.stringify(todoList));
+    }
+  }, [todoList, isLoading]);
 
   function addTodo(newTodo) {
     setTodoList(prevTodoList => [...prevTodoList, newTodo]);
@@ -69,8 +60,8 @@ function App() {
   return (
     <div>
       <AddTodoForm addTodo={addTodo} />
-      {isLoading ? ( // Render loading message if isLoading is true
-        <div>Loading...</div>
+      {isLoading ? (
+        <p>Loading...</p>
       ) : (
         <TodoList todoList={todoList} onRemoveTodo={removeTodo} />
       )}
