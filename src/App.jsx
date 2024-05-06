@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import TodoList from './TodoList';
 import AddTodoForm from './AddTodoForm';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 
 function App() {
   const [todoList, setTodoList] = useState([]);
@@ -33,6 +35,7 @@ function App() {
         setTodoList(todos);
       } catch (error) {
         console.error('Error fetching data:', error);
+
         setError(error);
       } finally {
         setIsLoading(false);
@@ -40,10 +43,10 @@ function App() {
     };
 
     fetchData();
-  }, []); // Empty dependency list
+  }, []); 
 
   useEffect(() => {
-    if (!isLoading && todoList.length > 0) { // Only save to localStorage if todoList is not empty
+    if (!isLoading && todoList.length > 0) { 
       localStorage.setItem('savedTodoList', JSON.stringify(todoList));
     }
   }, [todoList, isLoading]);
@@ -58,15 +61,15 @@ function App() {
   }
 
   return (
-    <div>
-      <AddTodoForm addTodo={addTodo} />
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <TodoList todoList={todoList} onRemoveTodo={removeTodo} />
-      )}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/add" element={<AddTodoForm addTodo={addTodo} />} />
+        <Route path="/" element={<TodoList todoList={todoList} onRemoveTodo={removeTodo} />} />
+        <Route path="/new" element={<h1>New Todo List</h1>} />
+      </Routes>
+    </BrowserRouter> 
   );
+ 
 }
 
 export default App;
