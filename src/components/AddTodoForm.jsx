@@ -1,5 +1,11 @@
+import PropTypes from 'prop-types';
 import React, { useRef, useState } from 'react';
 import InputWithLabel from './InputWithLabel';
+
+AddTodoForm.propTypes = {
+  onAddTodo: PropTypes.func,
+};
+
 
 function AddTodoForm({ addTodo }) {
   const [todoTitle, setTodoTitle] = useState('');
