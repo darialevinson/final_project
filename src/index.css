@@ -66,3 +66,109 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+body {
+  background-color: #fdfd96;
+  color: #555555; 
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+
+h1, h2, h3{
+  color: #9ad0ec; 
+  font-weight: 600;
+  margin: 10px 0;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2 {
+  font-size: 1.75em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+
+nav a {
+  color: #ffb3ba; 
+  text-decoration: none;
+  padding: 10px 15px;
+  margin: 0 5px;
+  border-radius: 5px;
+}
+
+nav a:hover {
+  background-color: #ffdfba; 
+}
+
+
+input, button {
+  font-family: 'Poppins', sans-serif;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+input {
+  width: calc(100% - 24px);
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #ffb3ba; 
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #ffdfba; 
+}
+
+
+section {
+  padding: 20px;
+  margin: 10px 0;
+}
+
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.5em;
+  }
+
+  h2 {
+    font-size: 1.25em;
+  }
+
+  h3 {
+    font-size: 1.1em;
+  }
+
+  input, button {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 480px) {
+  nav a {
+    display: block;
+    margin: 5px 0;
+  }
+
+  h1, h2, h3 {
+    text-align: center;
+  }
+}
+.TodoList {
+  margin-left: 20px; 
+  padding: 10px;
+}
