@@ -6,7 +6,7 @@ const InputWithLabel = ({ inputRef, children, todoTitle, handleTitleChange }) =>
     if (inputRef.current) {
       inputRef.current.focus();
     }
-}, [inputRef]); 
+}, []); 
 
   return (
     <div>
@@ -25,7 +25,11 @@ const InputWithLabel = ({ inputRef, children, todoTitle, handleTitleChange }) =>
 };
 
 InputWithLabel.propTypes = {
-  handleTitleChange: PropTypes.func,
+  inputRef: PropTypes.object.isRequired,
+  children: PropTypes.node.isRequired,
+  todoTitle: PropTypes.string.isRequired,
+  handleTitleChange: PropTypes.func.isRequired,
 };
+
 
 export default InputWithLabel;

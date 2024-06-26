@@ -22,5 +22,11 @@
   .ListItem button:hover {
     background-color: #ffdfba; 
   }
-
+ 
+  @media (max-width: 768px) {
+    .TodoListContainer {
+      padding: 10px;
+    }
+  }
+  
 
