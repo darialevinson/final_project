@@ -31,10 +31,16 @@ function App({ tableName }) {
         const data = await response.json();
 
         data.records.sort((objectA, objectB) => {
-          const titleA = objectA.fields.title;
+          const titleA = objectA.fields.title; 
           const titleB = objectB.fields.title;
-
-          return titleA.localeCompare(titleB);
+          
+          if (titleA < titleB) {
+            return 1;
+          }
+          if (titleA > titleB) {
+            return -1;
+          }
+          return 0;
         });
 
         const todos = data.records.map(record => ({
