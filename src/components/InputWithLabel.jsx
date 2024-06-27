@@ -9,8 +9,8 @@ const InputWithLabel = ({ inputRef, children, todoTitle, handleTitleChange }) =>
 }, []); 
 
   return (
-    <div>
-      <label htmlFor="todoTitle">{children}</label>
+  <div style={{ flex: 1 }}>
+    <label htmlFor="todoTitle">{children}</label>
       <input
         ref={inputRef}
         id="todoTitle"

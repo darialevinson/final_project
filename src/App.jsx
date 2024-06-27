@@ -30,7 +30,6 @@ function App({ tableName }) {
         }
         const data = await response.json();
 
-        // [Updated sorting to use `localeCompare`]
         data.records.sort((objectA, objectB) => {
           const titleA = objectA.fields.title;
           const titleB = objectB.fields.title;
@@ -124,14 +123,15 @@ function App({ tableName }) {
 
   return (
     <BrowserRouter>
+     <div className="container">
       <nav className="navbar">
         <ul className="nav-list">
           <li className="nav-item"><Link to="/">Home</Link></li>
-          <li className="nav-item"><Link to="/add">Add Todo</Link></li>
+          <li className="nav-item"><Link to="/todolist">Todo List</Link></li>
         </ul>
       </nav>
       <Routes>
-        <Route path="/" element={
+        <Route path="/todolist" element={
           <div>
             {tableName && <h1>{tableName} Table</h1>}
             <AddTodoForm onAddTodo={addTodo} />
@@ -142,8 +142,14 @@ function App({ tableName }) {
             )}
           </div>
         } />
-        <Route path="/add" element={<AddTodoForm addTodo={addTodo} />} />
+        <Route path="/" element={
+          <div>
+            <p>Welcome to my website!</p>
+            <img src="https://images.pexels.com/photos/2736499/pexels-photo-2736499.jpeg" width="400" height="267"/>
+          </div>
+          } />
       </Routes>
+      </div>
     </BrowserRouter>
   );
 }
